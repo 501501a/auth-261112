@@ -4,7 +4,7 @@ import com.back.global.rsData.RsData;
 
 public class ServiceException extends RuntimeException{
     private String msg;
-    public String resultCode;
+    private String resultCode;
 
     public ServiceException(String resultCode, String msg){
         super(msg);

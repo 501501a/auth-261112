@@ -1,4 +1,4 @@
-package com.back.domain.member.member.entity;
+package com.back.domain.member.entity;
 
 import com.back.global.entity.BaseEntity;
 import jakarta.persistence.Column;
@@ -16,13 +16,27 @@ public class Member extends BaseEntity {
     private String password;
     private String nickname;
 
-    public Member(String username, String password, String nickname) {
+    @Column(unique = true)
+    private String apiKey;
+
+    public Member(String username, String password, String nickname, String apiKey) {
         this.username = username;
         this.password = password;
+        this.nickname = nickname;
+        this.apiKey = apiKey;
+    }
+
+    public Member(int id, String username, String nickname) {
+        this.setId(id);
+        this.username = username;
         this.nickname = nickname;
     }
 
     public String getName(){
         return nickname;
+    }
+
+    public boolean isAdmin() {
+        return "adim".equals(username);
     }
 }
