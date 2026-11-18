@@ -34,9 +34,14 @@ public class ApiV1AdmMemberControllerTest {
     @DisplayName("회원 다건 조회")
     void t1() throws Exception {
 
+        Member actor = memberRepository.findByUsername("admin").get();
+
         ResultActions resultActions = mvc
                 .perform(
                         get("/api/v1/adm/members")
+                                .header(
+                                        "Authorization", "Bearer %s".formatted(actor.getApiKey())
+                                )
                 )
                 .andDo(print());
 
@@ -87,8 +92,6 @@ public class ApiV1AdmMemberControllerTest {
                 .andDo(print());
 
         resultActions
-                .andExpect(handler().handlerType(ApiV1AdmMemberController.class))
-                .andExpect(handler().methodName("list"))
                 .andExpect(status().isForbidden())
                 .andExpect(jsonPath("$.resultCode").value("403-1"))
                 .andExpect(jsonPath("$.msg").value("권한이 없습니다."));
